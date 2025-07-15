@@ -426,3 +426,31 @@ body {
         max-height: 250px;
     }
 }
+.connection-status {
+  font-weight: bold;
+  padding: 0.5em;
+  text-align: center;
+  color: #f44336;
+  font-size: 1.2rem;
+}
+
+.bluetooth-btn {
+  display: block;
+  margin: 1em auto;
+  padding: 0.8em 1.5em;
+  font-size: 1rem;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.bluetooth-btn.connected {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.bluetooth-btn span {
+  display: inline-block;
+}
