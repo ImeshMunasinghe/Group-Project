@@ -1,576 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
     <title>Sparkle - All-in-One Pet Robot</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>@</text></svg>">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <div id="connectionStatus" class="connection-status">Robot Disconnected</div>
-        <button id="bluetoothBtn" class="bluetooth-btn" onclick="connectToRobot()">
-            <span>Connect Robot</span>
+<div class="app-container">
+    <div id="connectionStatus" class="connection-status"> Robot Disconnected</div>
+    <button id="bluetoothBtn" class="bluetooth-btn" onclick="connectToRobot()">
+        <span> Connect Robot</span>
+    </button>
+    <div id="home" class="screen active">
+        <div class="header">
+            <div class="robot-icon"> </div>
+            <h1>Sparkle</h1>
+            <p class="subtitle">All-in-One Pet Robot</p>
+        </div>
+        <button class="btn" onclick="goToModeSelection()">
+            <span class="btn-icon"> </span>
+            <span>Get Started</span>
         </button>
-        
-        <div id="home" class="screen active">
-            <div class="header">
-                <div class="robot-icon">ROBOT</div>
-                <h1>Sparkle</h1>
-                <p class="subtitle">All-in-One Pet Robot</p>
-            </div>
-            <button class="btn" onclick="goToModeSelection()">
-                <span class="btn-icon">></span>
-                <span>Get Started</span>
+        <div class="powered-by">Powered by Nucleus</div>
+    </div>
+    <div id="mode" class="screen">
+        <div class="header">
+            <h2> Select Mode</h2>
+        </div>
+        <div class="mode-grid">
+            <button class="btn" onclick="goToGameMode()">
+                <span class="btn-icon"> </span>
+                <span>Game Mode</span>
             </button>
-            <div class="powered-by">Powered by Nucleus</div>
-        </div>
-        
-        <div id="mode" class="screen">
-            <div class="header">
-                <h2>Select Mode</h2>
-            </div>
-            <div class="mode-grid">
-                <button class="btn" onclick="goToGameMode()">
-                    <span class="btn-icon">G</span>
-                    <span>Game Mode</span>
-                </button>
-                <button class="btn" onclick="goToPlayMode()">
-                    <span class="btn-icon">P</span>
-                    <span>Play Mode</span>
-                </button>
-                <button class="btn" onclick="goToParentMode()">
-                    <span class="btn-icon">F</span>
-                    <span>Parent Mode</span>
-                </button>
-            </div>
-            <button class="back-btn" onclick="goHome()">←</button>
-        </div>
-
-        <div id="game" class="screen">
-            <div class="header">
-                <h2>Game Mode</h2>
-                <p>Voice command to your pet robot!</p>
-            </div>
-            <button class="btn" onclick="goToMicScreen()">
-                <span class="btn-icon">M</span>
-                <span>Start Voice Control</span>
+            <button class="btn" onclick="goToPlayMode()">
+                <span class="btn-icon"> </span>
+                <span>Play Mode</span>
             </button>
-            <button class="back-btn" onclick="goToModeSelection()">←</button>
+            <button class="btn" onclick="goToParentMode()">
+                <span class="btn-icon"> </span>
+                <span>Parent Mode</span>
+            </button>
         </div>
-
-        <div id="mic" class="screen">
-            <div class="header">
-                <h2>Voice Control</h2>
-                <p>Say commands like: "forward", "backward", "left", "right", "stop"</p>
-            </div>
-            <button class="mic-button" id="micButton" onclick="toggleMic()">MIC</button>
-            <p id="micStatus">Tap microphone to start</p>
-
-            <div class="voice-help">
-                <h3 style="margin-bottom: 10px; font-size: 1rem;">Voice Commands:</h3>
-                <div style="opacity: 0.8;"> 
-                    "Forward" / "Move forward" - Move robot forward<br>
-                    "Backward" / "Move backward" - Move robot backward<br>
-                    "Left" / "Turn left" - Turn robot left<br>
-                    "Right" / "Turn right" - Turn robot right<br>
-                    "Stop" / "Halt" - Stop robot movement
-                </div>
-            </div>
-
-            <button class="back-btn" onclick="goToGameMode()">←</button>
-        </div>
-
-        <div id="play" class="screen">
-            <button class="camera-toggle" id="cameraBtn" onclick="toggleCamera()">CAM</button>
-            <div class="header">
-                <h2>Play Mode</h2>
-                <p>Control your pet robot</p>
-            </div>
-            <div class="controls">
-                <div class="control-pad">
-                    <div class="control-btn empty"></div>
-                    <button class="control-btn" onclick="buttonPress(this, 'up')">UP</button>
-                    <div class="control-btn empty"></div>
-                    <button class="control-btn" onclick="buttonPress(this, 'left')">LEFT</button>
-                    <button class="control-btn" onclick="buttonPress(this, 'stop')">STOP</button>
-                    <button class="control-btn" onclick="buttonPress(this, 'right')">RIGHT</button>
-                    <div class="control-btn empty"></div>
-                    <button class="control-btn" onclick="buttonPress(this, 'down')">DOWN</button>
-                    <div class="control-btn empty"></div>
-                </div>
-            </div>
-            <button class="back-btn" onclick="goToModeSelection()">←</button>
-        </div>
-
-        <div id="parent" class="screen">
-            <button class="camera-toggle" id="parentCameraBtn" onclick="toggleParentCamera()">CAM</button>
-            <button class="music-toggle" onclick="goToEntertainmentMode()">MUS</button>
-            <div class="header">
-                <h2>Parent Mode</h2>
-                <p>Full control & entertainment</p>
-            </div>
-            <div class="controls">
-                <div class="control-pad">
-                    <div class="control-btn empty"></div>
-                    <button class="control-btn" onclick="buttonPress(this, 'up')">UP</button>
-                    <div class="control-btn empty"></div>
-                    <button class="control-btn" onclick="buttonPress(this, 'left')">LEFT</button>
-                    <button class="control-btn" onclick="buttonPress(this, 'stop')">STOP</button>
-                    <button class="control-btn" onclick="buttonPress(this, 'right')">RIGHT</button>
-                    <div class="control-btn empty"></div>
-                    <button class="control-btn" onclick="buttonPress(this, 'down')">DOWN</button>
-                    <div class="control-btn empty"></div>
-                </div>
-            </div>
-            <button class="back-btn" onclick="goToModeSelection()">←</button>
-        </div>
-
-        <div id="entertainment" class="screen">
-            <div class="header">
-                <h2>Entertainment</h2>
-                <p>Choose what to play</p>
-            </div>
-            <div class="mode-grid">
-                <button class="btn" onclick="goToSongs()">
-                    <span class="btn-icon">S</span>
-                    <span>Songs</span>
-                </button>
-                <button class="btn" onclick="goToStories()">
-                    <span class="btn-icon">T</span>
-                    <span>Stories</span>
-                </button>
-                <button class="btn" onclick="goToLullabies()">
-                    <span class="btn-icon">L</span>
-                    <span>Lullabies</span>
-                </button>
-            </div>
-            <button class="back-btn" onclick="goToParentMode()">←</button>
-        </div>
-
-        <div id="songs" class="screen">
-            <div class="header">
-                <h2>Songs Playlist</h2>
-            </div>
-            <div class="playlist">
-                <div class="playlist-item" onclick="playItem(this, 'song')">
-                    <span class="playlist-item-icon">S</span>
-                    <span>Happy Birthday Song</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'song')">
-                    <span class="playlist-item-icon">S</span>
-                    <span>Twinkle Twinkle Little Star</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'song')">
-                    <span class="playlist-item-icon">S</span>
-                    <span>Old MacDonald Had a Farm</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'song')">
-                    <span class="playlist-item-icon">S</span>
-                    <span>The Wheels on the Bus</span>
-                    <span class="status-indicator"></span>
-                </div>
-            </div>
-            <button class="back-btn" onclick="goToEntertainmentMode()">←</button>
-        </div>
-
-        <div id="stories" class="screen">
-            <div class="header">
-                <h2>Stories Playlist</h2>
-            </div>
-            <div class="playlist">
-                <div class="playlist-item" onclick="playItem(this, 'story')">
-                    <span class="playlist-item-icon">T</span>
-                    <span>The Three Little Pigs</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'story')">
-                    <span class="playlist-item-icon">T</span>
-                    <span>Goldilocks & The Three Bears</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'story')">
-                    <span class="playlist-item-icon">T</span>
-                    <span>Little Red Riding Hood</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'story')">
-                    <span class="playlist-item-icon">T</span>
-                    <span>The Tortoise and The Hare</span>
-                    <span class="status-indicator"></span>
-                </div>
-            </div>
-            <button class="back-btn" onclick="goToEntertainmentMode()">←</button>
-        </div>
-
-        <div id="lullabies" class="screen">
-            <div class="header">
-                <h2>Lullabies Playlist</h2>
-            </div>
-            <div class="playlist">
-                <div class="playlist-item" onclick="playItem(this, 'lullaby')">
-                    <span class="playlist-item-icon">L</span>
-                    <span>Brahms' Lullaby</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'lullaby')">
-                    <span class="playlist-item-icon">L</span>
-                    <span>Rock-a-Bye Baby</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'lullaby')">
-                    <span class="playlist-item-icon">L</span>
-                    <span>Twinkle Twinkle (Soft Version)</span>
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="playlist-item" onclick="playItem(this, 'lullaby')">
-                    <span class="playlist-item-icon">L</span>
-                    <span>Hush Little Baby</span>
-                    <span class="status-indicator"></span>
-                </div>
-            </div>
-            <button class="back-btn" onclick="goToEntertainmentMode()">←</button>
-        </div>
+        <button class="back-btn" onclick="goHome()"> </button>
     </div>
 
-    <script>
-    // ==== BLUETOOTH FUNCTIONALITY ====
-    let bluetoothDevice = null;
-    let bluetoothCharacteristic = null;
-    let isConnected = false;
+    <div id="game" class="screen">
+        <div class="header">
+            <h2>  Game Mode</h2>
+            <p>Voice command to your pet robot!</p>
+        </div>
+        <button class="btn" onclick="goToMicScreen()">
+            <span class="btn-icon"> </span>
+            <span>Start Voice Control</span>
+        </button>
+        <button class="back-btn" onclick="goToModeSelection()"> </button>
+    </div>
 
-    // IMPORTANT: Replace these with your robot's actual UUIDs
-    const ROBOT_SERVICE_UUID = '12345678-1234-5678-9abc-123456789abc';
-    const ROBOT_CHARACTERISTIC_UUID = '87654321-4321-8765-cba9-987654321cba';
+    <div id="mic" class="screen">
+        <div class="header">
+            <h2>  Voice Control</h2>
+            <p>Say commands like: "forward", "backward", "left", "right", "stop"</p>
+        </div>
+        <button class="mic-button" id="micButton" onclick="toggleMic()"> </button>
+        <p id="micStatus"> Tap microphone to start</p>
 
-    // Connect to robot via Bluetooth
-    async function connectToRobot() {
-        if (!navigator.bluetooth) {
-            alert('Bluetooth not supported in this browser. Use Chrome or Edge.');
-            return;
-        }
+        <div class="voice-help">
+            <h3 style="margin-bottom: 10px; font-size: 1rem;">Voice Commands:</h3>
+            <div style="opacity: 0.8;"> 
+                "Forward" / "Move forward" - Move robot forward<br>
+                "Backward" / "Move backward" - Move robot backward<br>
+                "Left" / "Turn left" - Turn robot left<br>
+                "Right" / "Turn right" - Turn robot right<br>
+                "Stop" / "Halt" - Stop robot movement
+            </div>
+        </div>
 
-        try {
-            console.log('Requesting Bluetooth Device...');
-            updateConnectionStatus('Connecting...', '#ff9800');
+        <button class="back-btn" onclick="goToGameMode()"> </button>
+    </div>
 
-            // Use service-based filter instead of acceptAllDevices
-            bluetoothDevice = await navigator.bluetooth.requestDevice({
-                filters: [{ services: [ROBOT_SERVICE_UUID] }]
-            });
+    <div id="play" class="screen">
+        <button class="camera-toggle" id="cameraBtn" onclick="toggleCamera()"> </button>
+        <div class="header">
+            <h2>🎲 Play Mode</h2> 
+            <p>Control your pet robot</p> 
+        </div> 
+        <div class="controls"> 
+            <div class="control-pad"> 
+                <div class="control-btn empty"></div> 
+                <button class="control-btn" onclick="buttonPress(this, 'up')">⬆️</button> 
+                <div class="control-btn empty"></div> 
+                <button class="control-btn" onclick="buttonPress(this, 'left')">⬅️</button> 
+                <button class="control-btn" onclick="buttonPress(this, 'stop')">⏹️</button> 
+                <button class="control-btn" onclick="buttonPress(this, 'right')">➡️</button> 
+                <div class="control-btn empty"></div> 
+                <button class="control-btn" onclick="buttonPress(this, 'down')">⬇️</button> 
+                <div class="control-btn empty"></div> 
+            </div> 
+        </div> 
+        <button class="back-btn" onclick="goToModeSelection()">⬅️</button> 
+    </div> 
 
-            console.log('Selected device:', bluetoothDevice.name || 'Unnamed device');
+    <div id="parent" class="screen"> 
+        <button class="camera-toggle" id="parentCameraBtn" onclick="toggleParentCamera()">📹</button> 
+        <button class="music-toggle" onclick="goToEntertainmentMode()">🎵</button> 
+        <div class="header"> 
+            <h2>👨‍👩‍👧‍👦 Parent Mode</h2> 
+            <p>Full control & entertainment</p> 
+        </div> 
+        <div class="controls"> 
+            <div class="control-pad"> 
+                <div class="control-btn empty"></div> 
+                <button class="control-btn" onclick="buttonPress(this, 'up')">⬆️</button> 
+                <div class="control-btn empty"></div> 
+                <button class="control-btn" onclick="buttonPress(this, 'left')">⬅️</button> 
+                <button class="control-btn" onclick="buttonPress(this, 'stop')">⏹️</button> 
+                <button class="control-btn" onclick="buttonPress(this, 'right')">➡️</button> 
+                <div class="control-btn empty"></div>
+                <button class="control-btn" onclick="buttonPress(this, 'down')">⬇️</button>
+                <div class="control-btn empty"></div>
+            </div>
+        </div>
+        <button class="back-btn" onclick="goToModeSelection()">⬅️</button>
+    </div>
 
-            const server = await bluetoothDevice.gatt.connect();
-            console.log('Connected to GATT server');
+    <div id="entertainment" class="screen">
+        <div class="header">
+            <h2> Entertainment</h2>
+            <p>Choose what to play</p>
+        </div>
+        <div class="mode-grid">
+            <button class="btn" onclick="goToSongs()">
+                <span class="btn-icon"> </span>
+                <span>Songs</span>
+            </button>
+            <button class="btn" onclick="goToStories()">
+                <span class="btn-icon"> </span>
+                <span>Stories</span>
+            </button>
+            <button class="btn" onclick="goToLullabies()">
+                <span class="btn-icon"> </span>
+                <span>Lullabies</span>
+            </button>
+        </div>
+        <button class="back-btn" onclick="goToParentMode()"> </button>
+    </div>
 
-            const service = await server.getPrimaryService(ROBOT_SERVICE_UUID);
-            bluetoothCharacteristic = await service.getCharacteristic(ROBOT_CHARACTERISTIC_UUID);
+    <div id="songs" class="screen">
+        <div class="header">
+            <h2> Songs Playlist</h2>
+        </div>
+        <div class="playlist">
+            <div class="playlist-item" onclick="playItem(this, 'song')">
+                <span class="playlist-item-icon"> </span>
+                <span>Happy Birthday Song</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'song')">
+                <span class="playlist-item-icon"> </span>
+                <span>Twinkle Twinkle Little Star</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'song')">
+                <span class="playlist-item-icon"> </span>
+                <span>Old MacDonald Had a Farm</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'song')">
+                <span class="playlist-item-icon"> </span>
+                <span>The Wheels on the Bus</span>
+                <span class="status-indicator"></span>
+            </div>
+        </div>
+        <button class="back-btn" onclick="goToEntertainmentMode()"> </button>
+    </div>
 
-            isConnected = true;
-            updateConnectionStatus('Robot Connected', '#4CAF50');
-            updateBluetoothButton(true);
+    <div id="stories" class="screen">
+        <div class="header">
+            <h2>☐ Stories Playlist</h2>
+        </div>
+        <div class="playlist">
+            <div class="playlist-item" onclick="playItem(this, 'story')">
+                <span class="playlist-item-icon"> ☐ </span>
+                <span>The Three Little Pigs</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'story')">
+                <span class="playlist-item-icon"> ☐ </span>
+                <span>Goldilocks & The Three Bears</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'story')">
+                <span class="playlist-item-icon"> ☐ </span>
+                <span>Little Red Riding Hood</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'story')">
+                <span class="playlist-item-icon"> ☐ </span>
+                <span>The Tortoise and The Hare</span>
+                <span class="status-indicator"></span>
+            </div>
+        </div>
+        <button class="back-btn" onclick="goToEntertainmentMode()"> </button>
+    </div>
 
-            console.log('Robot connected successfully!');
+    <div id="lullabies" class="screen">
+        <div class="header">
+            <h2>☒ Lullabies Playlist</h2>
+        </div>
+        <div class="playlist">
+            <div class="playlist-item" onclick="playItem(this, 'lullaby')">
+                <span class="playlist-item-icon"></span>
+                <span>Brahms' lullaby</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'lullaby')">
+                <span class="playlist-item-icon"></span>
+                <span>Rock-a-Bye Baby</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'lullaby')">
+                <span class="playlist-item-icon"></span>
+                <span>Twinkle Twinkle (Soft Version)</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="playlist-item" onclick="playItem(this, 'lullaby')">
+                <span class="playlist-item-icon"></span>
+                <span>Hush Little Baby</span>
+                <span class="status-indicator"></span>
+            </div>
+        </div>
+        <button class="back-btn" onclick="goToEntertainmentMode()"></button>
+    </div>
+</div>
 
-            bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
-
-        } catch (error) {
-            console.error('Connection failed:', error);
-            updateConnectionStatus('Connection Failed', '#f44336');
-            updateBluetoothButton(false);
-        }
-    }
-
-    function onDisconnected() {
-        console.log('Robot disconnected');
-        isConnected = false;
-        bluetoothCharacteristic = null;
-        updateConnectionStatus('Robot Disconnected', '#f44336');
-        updateBluetoothButton(false);
-    }
-
-    async function sendRobotCommand(command) {
-        if (!isConnected || !bluetoothCharacteristic) {
-            console.log(`Robot not connected - simulating command: ${command}`);
-            return;
-        }
-        try {
-            const commandBytes = new TextEncoder().encode(command);
-            await bluetoothCharacteristic.writeValue(commandBytes);
-            console.log(`Command sent: ${command}`);
-        } catch (error) {
-            console.error(`Failed to send command:`, error);
-        }
-    }
-
-    function updateConnectionStatus(message, color) {
-        const statusElement = document.getElementById('connectionStatus');
-        statusElement.textContent = message;
-        statusElement.style.color = color;
-    }
-
-    function updateBluetoothButton(connected) {
-        const btn = document.getElementById('bluetoothBtn');
-        if (connected) {
-            btn.classList.add('connected');
-            btn.innerHTML = '<span>Connected</span>';
-        } else {
-            btn.classList.remove('connected');
-            btn.innerHTML = '<span>Connect Robot</span>';
-        }
-    }
-
-    // ==== VOICE RECOGNITION FUNCTIONALITY ====
-    let recognition = null;
-    let isListening = false;
-
-    const VOICE_COMMANDS = {
-        'forward': 'up',
-        'move forward': 'up',
-        'go forward': 'up',
-        'up': 'up',
-        'backward': 'down',
-        'move backward': 'down',
-        'go backward': 'down',
-        'back': 'down',
-        'down': 'down',
-        'left': 'left',
-        'turn left': 'left',
-        'go left': 'left',
-        'right': 'right',
-        'turn right': 'right',
-        'go right': 'right',
-        'stop': 'stop',
-        'halt': 'stop',
-        'freeze': 'stop',
-        'pause': 'stop'
-    };
-
-    function initializeSpeechRecognition() {
-        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            console.error('Speech recognition not supported');
-            return false;
-        }
-
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.lang = 'en-US';
-
-        recognition.onstart = function () {
-            isListening = true;
-            updateMicStatus('Listening for commands...');
-            console.log('Speech recognition started');
-        };
-
-        recognition.onresult = function (event) {
-            let finalTranscript = "";
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-                if (event.results[i].isFinal) {
-                    finalTranscript += event.results[i][0].transcript;
-                }
-            }
-
-            if (finalTranscript) {
-                processVoiceCommand(finalTranscript.toLowerCase().trim());
-            }
-        };
-
-        recognition.onerror = function (event) {
-            console.error('Speech recognition error:', event.error);
-            updateMicStatus('Voice recognition error');
-            isListening = false;
-            const micButton = document.getElementById('micButton');
-            micButton.classList.remove('active');
-        };
-
-        recognition.onend = function () {
-            isListening = false;
-            updateMicStatus('Tap microphone to start');
-            const micButton = document.getElementById('micButton');
-            micButton.classList.remove('active');
-        };
-
-        return true;
-    }
-
-    function processVoiceCommand(command) {
-        console.log('Voice command received:', command);
-
-        for (const [phrase, action] of Object.entries(VOICE_COMMANDS)) {
-            if (command.includes(phrase)) {
-                updateMicStatus(`Command: "${phrase}" - ${action.toUpperCase()}`);
-                sendRobotCommand(action);
-                return;
-            }
-        }
-
-        updateMicStatus(`Unknown command: "${command}"`);
-    }
-
-    function toggleMic() {
-        const micButton = document.getElementById('micButton');
-
-        if (!recognition) {
-            if (!initializeSpeechRecognition()) {
-                updateMicStatus('Speech recognition not supported');
-                return;
-            }
-        }
-
-        if (isListening) {
-            recognition.stop();
-            micButton.classList.remove('active');
-            updateMicStatus('Tap microphone to start');
-        } else {
-            recognition.start();
-            micButton.classList.add('active');
-        }
-    }
-
-    function updateMicStatus(message) {
-        document.getElementById('micStatus').textContent = message;
-    }
-
-    // ==== NAVIGATION FUNCTIONS ====
-    function showScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(screen => {
-            screen.classList.remove('active');
-        });
-        document.getElementById(screenId).classList.add('active');
-    }
-
-    function goHome() { showScreen('home'); }
-    function goToModeSelection() { showScreen('mode'); }
-    function goToGameMode() { showScreen('game'); }
-    function goToPlayMode() { showScreen('play'); }
-    function goToParentMode() { showScreen('parent'); }
-    function goToMicScreen() {
-        showScreen('mic');
-        if (!recognition) {
-            initializeSpeechRecognition();
-        }
-    }
-    function goToEntertainmentMode() { showScreen('entertainment'); }
-    function goToSongs() { showScreen('songs'); }
-    function goToStories() { showScreen('stories'); }
-    function goToLullabies() { showScreen('lullabies'); }
-
-    // ==== CONTROL FUNCTIONS ====
-    function buttonPress(button, direction) {
-        button.style.background = 'rgba(76, 175, 80, 0.8)';
-        setTimeout(() => {
-            button.style.background = 'rgba(255, 255, 255, 0.2)';
-        }, 200);
-
-        sendRobotCommand(direction);
-        console.log(`Control pressed: ${direction}`);
-    }
-
-    let cameraEnabled = false;
-    function toggleCamera() {
-        const cameraBtn = document.getElementById('cameraBtn');
-        cameraEnabled = !cameraEnabled;
-
-        if (cameraEnabled) {
-            cameraBtn.style.background = 'rgba(76, 175, 80, 0.8)';
-            sendRobotCommand('camera_on');
-        } else {
-            cameraBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-            sendRobotCommand('camera_off');
-        }
-    }
-
-    function toggleParentCamera() {
-        const cameraBtn = document.getElementById('parentCameraBtn');
-        cameraEnabled = !cameraEnabled;
-
-        if (cameraEnabled) {
-            cameraBtn.style.background = 'rgba(76, 175, 80, 0.8)';
-            sendRobotCommand('camera_on');
-        } else {
-            cameraBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-            sendRobotCommand('camera_off');
-        }
-    }
-
-    // ==== PLAYLIST FUNCTIONS ====
-    let currentlyPlaying = null;
-
-    function playItem(item, type) {
-        if (currentlyPlaying) {
-            currentlyPlaying.querySelector('.status-indicator').classList.remove('active');
-        }
-
-        const indicator = item.querySelector('.status-indicator');
-        indicator.classList.add('active');
-        currentlyPlaying = item;
-
-        const itemName = item.querySelector('span:nth-child(2)').textContent;
-        sendRobotCommand(`play_${type}_${itemName.replace(/\s+/g, '_').toLowerCase()}`);
-        console.log(`Playing ${type}: ${itemName}`);
-
-        setTimeout(() => {
-            if (currentlyPlaying === item) {
-                indicator.classList.remove('active');
-                currentlyPlaying = null;
-            }
-        }, 30000);
-    }
-
-    // ==== INITIALIZATION ====
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log('Sparkle Pet Robot Interface Loaded');
-        initializeSpeechRecognition();
-        updateConnectionStatus('Robot Disconnected', '#f44336');
-    });
-
-    // ==== KEYBOARD SHORTCUTS ====
-    document.addEventListener('keydown', function (event) {
-        const currentScreen = document.querySelector('.screen.active').id;
-        if (currentScreen !== 'play' && currentScreen !== 'parent') {
-            return;
-        }
-
-        switch (event.key) {
-            case 'ArrowUp':
-            case 'w':
-            case 'W':
-                event.preventDefault();
-                sendRobotCommand('up');
-                break;
-            case 'ArrowDown':
-            case 's':
-            case 'S':
-                event.preventDefault();
-                sendRobotCommand('down');
-                break;
-            case 'ArrowLeft':
-            case 'a':
-            case 'A':
-                event.preventDefault();
-                sendRobotCommand('left');
-                break;
-            case 'ArrowRight':
-            case 'd':
-            case 'D':
-                event.preventDefault();
-                sendRobotCommand('right');
-                break;
-            case ' ':
-            case 'Escape':
-                event.preventDefault();
-                sendRobotCommand('stop');
-                break;
-        }
-    });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
